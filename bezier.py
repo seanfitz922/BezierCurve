@@ -43,7 +43,7 @@ def generate_polynomial_equation(control_points):
     y_term = f"(1 - t)^3 * {P0[1]} + 3 * (1 - t)^2 * t * {P1[1]} + 3 * (1 - t) * t^2 * {P2[1]} + t^3 * {P3[1]}"
     return x_term, y_term
 
-def display_polynomial_text(polynomial, position):
+def display_polynomial_info(polynomial, position):
     text = font.render("Polynomial: " + polynomial, True, TEXT_COLOR)
     screen.blit(text, position)
 
@@ -104,8 +104,9 @@ while running:
         # print(f"x(t) = {polynomial[0]}")
         # print(f"y(t) = {polynomial[1]}")
 
-        display_polynomial_text("x(t)= " + polynomial[0], (10, 10))
-        display_polynomial_text("y(t)= " + polynomial[1], (10, 50))
+        display_polynomial_info("x(t)= " + polynomial[0], (10, 10))
+        display_polynomial_info("y(t)= " + polynomial[1], (10, 50))
+        display_polynomial_info("Points:" + str(control_points) , (10,90))
 
     pygame.display.flip()
 
