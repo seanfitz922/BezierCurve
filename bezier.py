@@ -104,7 +104,7 @@ while running:
 
     # Draw control points
     for point in control_points:
-        pygame.draw.circle(screen, POINT_COLOR, point, 5)
+        pygame.draw.circle(screen, POINT_COLOR, point, 7)
 
     # Draw the curve gradually using De Casteljau's algorithm
     if draw_curve:
@@ -117,7 +117,7 @@ while running:
 
         # Draw the curve incrementally
         if len(x_values) > 1:
-            pygame.draw.lines(screen, CURVE_COLOR, False, list(zip(x_values, y_values)), 5)
+            pygame.draw.lines(screen, CURVE_COLOR, False, list(zip(x_values, y_values)), 7)
         
         # Calculate and display the polynomial equation
         polynomial = generate_polynomial_equation(control_points)
