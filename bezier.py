@@ -17,6 +17,7 @@ POINT_COLOR = (255, 0, 0)
 CURVE_COLOR = (0, 0, 255)
 TEXT_COLOR = WHITE
 FONT_SIZE = 30
+ANIMATION_SPEED = 0.002  # Control how fast the curve is drawn
 
 # Initialize window with screen width and height
 screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
@@ -32,7 +33,7 @@ control_points = []
 # straight from wikipedia, https://en.wikipedia.org/wiki/De_Casteljau%27s_algorithm
 def de_casteljau(t, control_points):
     n = len(control_points)
-    points = control_points.copy() 
+    points = control_points.copy()  # Make a copy of control points
 
     # Perform De Casteljau's algorithm
     for r in range(1, n):
@@ -42,7 +43,6 @@ def de_casteljau(t, control_points):
 
     return points[0]  # The first point is the result
 
-# Function to generate the polynomial equation as text (for display)
 # formula from https://en.wikipedia.org/wiki/B%C3%A9zier_curve and 
 # https://math.stackexchange.com/questions/26846/is-there-an-explicit-form-for-cubic-b%C3%A9zier-curves
 def generate_polynomial_equation(control_points):
@@ -60,13 +60,14 @@ def display_polynomial_info(polynomial, position):
 running = True
 drawing = True
 draw_curve = False
+# for animating curve
+t_current = 0  
 
 # Main Pygame loop
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-            
         # mouse position from https://stackoverflow.com/questions/66349281/pygame-function-to-draw-a-line-between-two-points-is-not-working
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1 and drawing:  
@@ -75,13 +76,15 @@ while running:
                 if len(control_points) == 4: 
                     drawing = False
                     draw_curve = True
-        
+                    t_current = 0  # Reset animation
+
         # Check for the 'r' key press to reset
         keys = pygame.key.get_pressed()
         if keys[pygame.K_r]:
             control_points = []
             drawing = True
             draw_curve = False
+            t_current = 0
             BACKGROUND_COLOR = BLACK
             TEXT_COLOR = WHITE
 
@@ -103,14 +106,18 @@ while running:
     for point in control_points:
         pygame.draw.circle(screen, POINT_COLOR, point, 5)
 
-    # Draw the curve using De Casteljau's algorithm
+    # Draw the curve gradually using De Casteljau's algorithm
     if draw_curve:
-        t_values = np.linspace(0, 1, 1000)
+        if t_current <= 1:
+            # https://stackoverflow.com/questions/28074461/animating-growing-line-plot
+            t_current += ANIMATION_SPEED  # Gradually increase t
+        t_values = np.linspace(0, t_current, int(t_current * 1000))
         x_values = [de_casteljau(t, control_points)[0] for t in t_values]
         y_values = [de_casteljau(t, control_points)[1] for t in t_values]
 
-        # Draw the curve
-        pygame.draw.lines(screen, CURVE_COLOR, False, list(zip(x_values, y_values)), 5)
+        # Draw the curve incrementally
+        if len(x_values) > 1:
+            pygame.draw.lines(screen, CURVE_COLOR, False, list(zip(x_values, y_values)), 5)
         
         # Calculate and display the polynomial equation
         polynomial = generate_polynomial_equation(control_points)
