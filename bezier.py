@@ -12,16 +12,19 @@ WIDTH, HEIGHT = info.current_w, info.current_h
 # Constants
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-BACKGROUND_COLOR = BLACK
+BACKGROUND_COLOR = WHITE
 POINT_COLOR = (255, 0, 0)
 CURVE_COLOR = (0, 0, 255)
-TEXT_COLOR = WHITE
-FONT_SIZE = 30
-ANIMATION_SPEED = 0.002  # Control how fast the curve is drawn
+TEXT_COLOR = BLACK
+FONT_SIZE = 37
+ANIMATION_SPEED = 0.003  # Control how fast the curve is drawn
 
 # Initialize window with screen width and height
 screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
 pygame.display.set_caption("Bézier Curve Fitting")
+
+background_image = pygame.image.load("grid.jpg")
+background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 
 # Create a font for displaying text
 font = pygame.font.Font(None, FONT_SIZE)
@@ -85,14 +88,7 @@ while running:
             drawing = True
             draw_curve = False
             t_current = 0
-            BACKGROUND_COLOR = BLACK
-            TEXT_COLOR = WHITE
 
-        # Toggle background color with 'w' key
-        if keys[pygame.K_w]:
-            BACKGROUND_COLOR = WHITE
-            TEXT_COLOR = BLACK
-        
         # Check for the 'q' key press to quit
         if keys[pygame.K_q]:
             running = False
@@ -100,24 +96,25 @@ while running:
             sys.exit()
 
     # Fill screen with the background color
-    screen.fill(BACKGROUND_COLOR)
+    screen.blit(background_image, (0, 0))
 
     # Draw control points
     for point in control_points:
-        pygame.draw.circle(screen, POINT_COLOR, point, 7)
+        pygame.draw.circle(screen, POINT_COLOR, point, 10)
 
     # Draw the curve gradually using De Casteljau's algorithm
     if draw_curve:
         if t_current <= 1:
             # https://stackoverflow.com/questions/28074461/animating-growing-line-plot
             t_current += ANIMATION_SPEED  # Gradually increase t
+        control_points = [(0,0) , (500,500), (1000,700), (1000,1000)]
         t_values = np.linspace(0, t_current, int(t_current * 1000))
         x_values = [de_casteljau(t, control_points)[0] for t in t_values]
         y_values = [de_casteljau(t, control_points)[1] for t in t_values]
 
         # Draw the curve incrementally
         if len(x_values) > 1:
-            pygame.draw.lines(screen, CURVE_COLOR, False, list(zip(x_values, y_values)), 7)
+            pygame.draw.lines(screen, CURVE_COLOR, False, list(zip(x_values, y_values)), 8)
         
         # Calculate and display the polynomial equation
         polynomial = generate_polynomial_equation(control_points)
