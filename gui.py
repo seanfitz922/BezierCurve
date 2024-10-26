@@ -1,9 +1,11 @@
 import tkinter as tk
 from tkinter import font
+from tkinter import messagebox
+from bezier import main
 
 # Initialize the main application window
 root = tk.Tk()
-root.title("Bezier Cubit")
+root.title("Bézier Cubit")
 root.geometry("400x300")
 root.configure(bg="#f0f0f5")  # Light background color
 
@@ -11,85 +13,118 @@ root.configure(bg="#f0f0f5")  # Light background color
 # https://www.geeksforgeeks.org/how-to-set-font-for-text-in-tkinter/
 title_font = font.Font(family="Helvetica", size=18, weight="bold")
 button_font = font.Font(family="Helvetica", size=12)
+text_font = font.Font(family="Helvetica", size=14)
 
 # Create a frame for the title
 # https://www.geeksforgeeks.org/python-tkinter-frame-widget/
 title_frame = tk.Frame(root, bg="#3b5998", padx=10, pady=10)
 title_frame.pack(fill="x", pady=(0, 20))
 
-title_label = tk.Label(title_frame, text="Bezier Cubit", font=title_font, fg="white", bg="#3b5998")
+title_label = tk.Label(title_frame, text="Bézier Cubit", font=title_font, fg="white", bg="#3b5998")
 title_label.pack()
 
 # Create a function for each button ADD FUINCTIONALITY
 def open_input_points_menu():
 
-    # define control points list
-    control_points = []
-
     # https://www.pythontutorial.net/tkinter/tkinter-toplevel/
     # Create a new top-level window
     input_window = tk.Toplevel(root)
     input_window.title("Input Points")
-    input_window.geometry("350x300")
+    input_window.geometry("400x300")
     input_window.configure(bg="#e0e0eb")
 
 
+    # ADD FONT FOR ENTER POITNS SLIDE FOR LARGER
+
     # Label for entering points
-    input_label = tk.Label(input_window, text="Enter Points:", font=button_font, bg="#e0e0eb")
-    input_label.grid(row=0, column=0, columnspan=2, pady=(10, 10))
+    input_label = tk.Label(input_window, text="Enter Points:", font=title_font, bg="#e0e0eb")
+    input_label.grid(row=0, column=0, columnspan=2, sticky="ew", padx = 10, pady=(10, 10)) 
 
     # P1 label and entry
-    point_one_label = tk.Label(input_window, text="P1:", bg="#e0e0eb")
+    point_one_label = tk.Label(input_window, text="P1:", font = text_font,  bg="#e0e0eb")
     point_one_label.grid(row=1, column=0, padx=10, pady=5, sticky="e")
     point_one_entry = tk.Entry(input_window, width=10)
-    point_one_entry.grid(row=1, column=1, pady=5)
+    point_one_entry.grid(row=1, column=1, pady=5, ipadx = 15)
+
+    # formatting rules
+    point_one_example = tk.Label(input_window, text="Format: (x,y)", font=text_font, bg="#e0e0eb")
+    point_one_example.grid(row=1, column=2, padx=10, pady=5, sticky="w")
 
     # P2 label and entry
-    point_two_label = tk.Label(input_window, text="P2:", bg="#e0e0eb")
+    point_two_label = tk.Label(input_window, text="P2:", font = text_font, bg="#e0e0eb")
     point_two_label.grid(row=2, column=0, padx=10, pady=5, sticky="e")
     point_two_entry = tk.Entry(input_window, width=10)
-    point_two_entry.grid(row=2, column=1, pady=5)
+    point_two_entry.grid(row=2, column=1, pady=5, ipadx = 15)
+
+    # formatting rules
+    point_two_example = tk.Label(input_window, text="- Only integers", font=text_font, bg="#e0e0eb")
+    point_two_example.grid(row=2, column=2, padx=10, pady=5, sticky="w")
 
     # P3 label and entry
-    point_three_label = tk.Label(input_window, text="P3:", bg="#e0e0eb")
+    point_three_label = tk.Label(input_window, text="P3:", font = text_font, bg="#e0e0eb")
     point_three_label.grid(row=3, column=0, padx=10, pady=5, sticky="e")
     point_three_entry = tk.Entry(input_window, width=10)
-    point_three_entry.grid(row=3, column=1, pady=5)
+    point_three_entry.grid(row=3, column=1, pady=5, ipadx = 15)
+
+    # formatting rules
+    point_three_example = tk.Label(input_window, text="- Must enter four points", font=text_font, bg="#e0e0eb")
+    point_three_example.grid(row=3, column=2, padx=10, pady=5, sticky="w")
 
     # P4 label and entry
-    point_four_label = tk.Label(input_window, text="P4:", bg="#e0e0eb")
+    point_four_label = tk.Label(input_window, text="P4:", font = text_font, bg="#e0e0eb")
     point_four_label.grid(row=4, column=0, padx=10, pady=5, sticky="e")
     point_four_entry = tk.Entry(input_window, width=10)
-    point_four_entry.grid(row=4, column=1, pady=5)
+    point_four_entry.grid(row=4, column=1, pady=5, ipadx = 15)
 
     # Submit button
     # https://stackoverflow.com/questions/51686567/making-a-new-window-with-an-input-widget-using-tkinter
     # Assuming `control_points` is a predefined list to store the points
-    draw_button = tk.Button(input_window, text="Draw Curve", font=button_font, bg="#4CAF50", fg="white",
-                            command=lambda: control_points.append((
-                                point_one_entry.get(), 
-                                point_two_entry.get(), 
-                                point_three_entry.get(), 
-                                point_four_entry.get()
-                            )))
+    draw_button = tk.Button(input_window, text="Draw Curve", font=button_font, width=15, height=2, bg="#4CAF50", fg="white",
+                        command=lambda: parse_points_string([
+                            (point_one_entry.get()), (point_two_entry.get()),
+                            (point_three_entry.get()), (point_four_entry.get())
+                        ]))
     
-    draw_button.grid(row=5, column=0, columnspan=2, pady=15)
+    draw_button.grid(row=5, column=0, columnspan=2, pady=15, padx=10)
 
 
-    # Close button
-    close_button = tk.Button(input_window, text="Close", font=button_font, bg="#FF5722", fg="white",
-                             command=input_window.destroy)
-    close_button.grid(row=6, column=0, columnspan=2, pady=5)
 
-    print("Input Points button clicked")
+def parse_points_string(points_list):
+    gui_points = []
+    # Flag to track if all inputs are valid
+    valid_input = True  
 
+    for point_str in points_list:
+        points = point_str.split(",")
+        
+        # Ensure length
+        if len(points) == 2:
+            try:
+                # Convert to integers and append as a tuple
+                gui_points.append((int(points[0].strip()), int(points[1].strip())))
+            except ValueError:
+                # Show error message for invalid integer conversion
+                messagebox.showerror("Input Error", f"Invalid input: '{point_str}'. Please enter valid integers.")
+                # Mark as invalid input
+                valid_input = False  
+                break
+        else:
+            messagebox.showerror("Input Error", "Invalid input length. Please enter two integers for each field.")
+            valid_input = False  
+            break
+
+    # Pass list of points to main to draw only if input is valid
+    if valid_input:
+        main(gui_points)
+
+# call main to run free hand mode
 def free_hand():
-    print("Free Hand button clicked")
+    main()
 
 def examples():
     print("Examples button clicked")
 
-# Place buttons inside another frame for better organization
+# Place buttons inside another frame 
 button_frame = tk.Frame(root, bg="#f0f0f5")
 button_frame.pack()
 

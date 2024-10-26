@@ -1,6 +1,7 @@
 import pygame
 import numpy as np
 import sys
+import time
 
 # Initialize Pygame and set up constants
 pygame.init()
@@ -8,8 +9,6 @@ pygame.init()
 # Get the screen width and height
 info = pygame.display.Info()
 WIDTH, HEIGHT = info.current_w, info.current_h
-
-screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
 
 
 # Colors and other constants
@@ -55,8 +54,16 @@ def display_polynomial_info(polynomial, position):
     screen.blit(text, position)
 
 # Main loop function
-def main():
-    global control_points
+def main(gui_points = []):
+    global control_points, screen
+    screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
+
+    manual_mode = False
+
+    if len(gui_points) > 0:
+        control_points = gui_points
+        manual_mode = True
+
     pygame.display.set_caption("Bézier Curve Fitting")
     
     # Main loop variables
@@ -67,25 +74,29 @@ def main():
 
     while running:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1 and drawing:
-                    control_points.append(event.pos)
-                    if len(control_points) == 4:
-                        drawing = False
-                        draw_curve = True
-                        t_current = 0
-
             keys = pygame.key.get_pressed()
-            if keys[pygame.K_r]:
-                control_points = []
-                drawing = True
-                draw_curve = False
-                t_current = 0
             if keys[pygame.K_q]:
-                running = False
+                    running = False
 
+            elif not manual_mode:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1 and drawing:
+                        control_points.append(event.pos)
+                        if len(control_points) == 4:
+                            drawing = False
+                            draw_curve = True
+                            t_current = 0
+
+                
+
+                
+                if keys[pygame.K_r]:
+                    control_points = []
+                    drawing = True
+                    draw_curve = False
+                    t_current = 0
+
+            else: draw_curve = True
         # Draw background, points, and curve
         screen.blit(background_image, (0, 0))
         for point in control_points:
