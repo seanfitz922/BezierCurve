@@ -33,9 +33,6 @@ def open_input_points_menu():
     input_window.geometry("400x300")
     input_window.configure(bg="#e0e0eb")
 
-
-    # ADD FONT FOR ENTER POITNS SLIDE FOR LARGER
-
     # Label for entering points
     input_label = tk.Label(input_window, text="Enter Points:", font=title_font, bg="#e0e0eb")
     input_label.grid(row=0, column=0, columnspan=2, sticky="ew", padx = 10, pady=(10, 10)) 
@@ -122,7 +119,51 @@ def free_hand():
     main()
 
 def examples():
-    print("Examples button clicked")
+    example_window = tk.Toplevel(root)
+    example_window.title("Input Points")
+    example_window.geometry("400x300")
+    example_window.configure(bg="#e0e0eb")
+
+    # Example label
+    example_label = tk.Label(example_window, text="Example Point Entries:", font=title_font, bg="#e0e0eb")
+    example_label.grid(row=0, column=0, sticky="w", padx=10, pady=(10, 10)) 
+
+    # Example 1 label
+    example_one_label = tk.Label(example_window, text="Example 1:", font=text_font, bg="#e0e0eb")
+    example_one_label.grid(row=1, column=0, padx=10, sticky="w")
+
+    # Draw Example One button
+    draw_example_one_button = tk.Button(example_window, text="Draw Curve", font=button_font, bg="#4CAF50", fg="white",
+                        command=lambda: main([
+                            (0, 0), (500, 500), (700, 1000), (1000, 1000)
+                        ]))
+    # Align left
+    draw_example_one_button.grid(row=2, column=0, padx=10, pady=5, sticky="w")  
+
+    # Example 2 label
+    example_two_label = tk.Label(example_window, text="Example 2:", font=text_font, bg="#e0e0eb")
+    example_two_label.grid(row=3, column=0, padx=10, sticky="w")
+
+    # Draw Example Two button
+    draw_example_two_button = tk.Button(example_window, text="Draw Curve", font=button_font, bg="#4CAF50", fg="white",
+                        command=lambda: main([
+                            (0, 1080), (1920, 0), (0, 0), (1920, 1080)
+                        ]))
+    # Align left
+    draw_example_two_button.grid(row=4, column=0, padx=10, pady=5, sticky="w")
+
+    # Example 3 label
+    example_three_label = tk.Label(example_window, text="Example 3:", font=text_font, bg="#e0e0eb")
+    example_three_label.grid(row=5, column=0, padx=10, sticky="w")
+
+    # Draw Example Three button
+    draw_example_three_button = tk.Button(example_window, text="Draw Curve", font=button_font, bg="#4CAF50", fg="white",
+                        command=lambda: main([
+                            (270, 820), (570, 180), (1400, 200), (1600, 820)
+                        ]))
+    # Align left
+    draw_example_three_button.grid(row=6, column=0, padx=10, pady=5, sticky="w")    
+
 
 # Place buttons inside another frame 
 button_frame = tk.Frame(root, bg="#f0f0f5")

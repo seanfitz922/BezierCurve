@@ -1,7 +1,7 @@
 import pygame
 import numpy as np
 import sys
-import time
+
 
 # Initialize Pygame and set up constants
 pygame.init()
@@ -86,9 +86,6 @@ def main(gui_points = []):
                             drawing = False
                             draw_curve = True
                             t_current = 0
-
-                
-
                 
                 if keys[pygame.K_r]:
                     control_points = []
