@@ -84,8 +84,6 @@ def open_input_points_menu():
     
     draw_button.grid(row=5, column=0, columnspan=2, pady=15, padx=10)
 
-
-
 def parse_points_string(points_list):
     gui_points = []
     # Flag to track if all inputs are valid
