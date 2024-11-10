@@ -25,8 +25,6 @@ ANIMATION_SPEED = 0.003  # Controls the curve drawing speed
 background_image = pygame.image.load("grid.jpg")
 background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 
-# Font for displaying text
-font = pygame.font.Font(None, FONT_SIZE)
 
 # Control points list
 control_points = []
@@ -50,13 +48,19 @@ def generate_polynomial_equation(control_points):
     return x_term, y_term
 
 # Display polynomial information
-def display_polynomial_info(polynomial, position):
+def display_polynomial_info(polynomial, position, font):
     text = font.render("Polynomial: " + polynomial, True, TEXT_COLOR)
     screen.blit(text, position)
 
 # Main loop function
 def main(gui_points = []):
+    # nasty hack but works, more errors to come
+    # Font for displaying text
+    if not pygame.get_init():
+        pygame.init()
+
     global control_points, screen
+    control_points = gui_points if gui_points else []
     screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
 
     manual_mode = False
@@ -65,6 +69,7 @@ def main(gui_points = []):
         control_points = gui_points
         manual_mode = True
 
+    font = pygame.font.Font(None, FONT_SIZE)
     pygame.display.set_caption("Bézier Curve Fitting")
     
     # Main loop variables
@@ -108,16 +113,14 @@ def main(gui_points = []):
             y_values = [de_casteljau(t, control_points)[1] for t in t_values]
             if len(x_values) > 1:
                 pygame.draw.lines(screen, CURVE_COLOR, False, list(zip(x_values, y_values)), 8)
-
             polynomial = generate_polynomial_equation(control_points)
-            display_polynomial_info("x(t)= " + polynomial[0], (10, 10))
-            display_polynomial_info("y(t)= " + polynomial[1], (10, 50))
-            display_polynomial_info("Points: " + str(control_points), (10, 90))
+            display_polynomial_info("x(t)= " + polynomial[0], (10, 10), font)
+            display_polynomial_info("y(t)= " + polynomial[1], (10, 50), font)
+            display_polynomial_info("Points: " + str(control_points), (10, 90), font)
 
         pygame.display.flip()
 
     pygame.quit()
-    sys.exit()
 
 # Run the main function only if this file is executed directly
 if __name__ == "__main__":
