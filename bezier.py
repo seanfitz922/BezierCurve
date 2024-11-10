@@ -46,8 +46,7 @@ def generate_polynomial_equation(control_points):
     P0, P1, P2, P3 = control_points
     x_term = f"(1 - t)^3 * {P0[0]} + 3 * (1 - t)^2 * t * {P1[0]} + 3 * (1 - t) * t^2 * {P2[0]} + t^3 * {P3[0]}"
     y_term = f"(1 - t)^3 * {P0[1]} + 3 * (1 - t)^2 * t * {P1[1]} + 3 * (1 - t) * t^2 * {P2[1]} + t^3 * {P3[1]}"
-    print(x_term)
-    print(y_term)
+    
     return x_term, y_term
 
 # Display polynomial information
