@@ -23,6 +23,8 @@ def clear_window():
         widget.destroy()
 
 # Load the home icon image
+# https://graphicdesign.stackexchange.com/questions/26385/difference-between-none-linear-cubic-and-sinclanczos3-interpolation-in-image
+# https://www.geeksforgeeks.org/loading-images-in-tkinter-using-pil/
 def get_home_icon():
     icon = Image.open("simple_house.jpg")
     icon = icon.resize((30, 30), Image.LANCZOS)  # Resize if necessary
@@ -64,12 +66,6 @@ def input_points_menu():
 
     # clsoe previous windows
     clear_window()
-
-    # https://www.pythontutorial.net/tkinter/tkinter-toplevel/
-    # Create a new top-level window
-    # input_window = tk.Toplevel(root)
-    # input_window.title("Input Points")
-    # input_window.geometry("400x300")
     root.configure(bg="#e0e0eb")
 
     # Label for entering points

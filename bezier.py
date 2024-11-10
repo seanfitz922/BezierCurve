@@ -1,7 +1,5 @@
 import pygame
 import numpy as np
-import sys
-
 
 # Initialize Pygame and set up constants
 pygame.init()
@@ -24,10 +22,6 @@ ANIMATION_SPEED = 0.003  # Controls the curve drawing speed
 # Load and scale background image
 background_image = pygame.image.load("grid.jpg")
 background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
-
-
-# Control points list
-control_points = []
 
 # De Casteljau's algorithm (https://en.wikipedia.org/wiki/De_Casteljau%27s_algorithm)
 def de_casteljau(t, control_points):
@@ -55,7 +49,6 @@ def display_polynomial_info(polynomial, position, font):
 # Main loop function
 def main(gui_points = []):
     # nasty hack but works, more errors to come
-    # Font for displaying text
     if not pygame.get_init():
         pygame.init()
 
@@ -69,6 +62,7 @@ def main(gui_points = []):
         control_points = gui_points
         manual_mode = True
 
+    # Font for displaying text
     font = pygame.font.Font(None, FONT_SIZE)
     pygame.display.set_caption("Bézier Curve Fitting")
     
@@ -112,7 +106,10 @@ def main(gui_points = []):
             x_values = [de_casteljau(t, control_points)[0] for t in t_values]
             y_values = [de_casteljau(t, control_points)[1] for t in t_values]
             if len(x_values) > 1:
+                # https://stackoverflow.com/questions/50534617/draw-a-line-in-pygame
                 pygame.draw.lines(screen, CURVE_COLOR, False, list(zip(x_values, y_values)), 8)
+            # FIX ME
+            # this is being ran everytime loop for no reason, it is a constant
             polynomial = generate_polynomial_equation(control_points)
             display_polynomial_info("x(t)= " + polynomial[0], (10, 10), font)
             display_polynomial_info("y(t)= " + polynomial[1], (10, 50), font)
