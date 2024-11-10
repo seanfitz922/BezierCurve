@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import font
 from tkinter import messagebox
+from PIL import Image, ImageTk
 from bezier import main
 
 # Initialize the main application window
@@ -20,6 +21,12 @@ text_font = font.Font(family="Helvetica", size=14)
 def clear_window():
     for widget in root.winfo_children():
         widget.destroy()
+
+# Load the home icon image
+def get_home_icon():
+    icon = Image.open("simple_house.jpg")
+    icon = icon.resize((30, 30), Image.LANCZOS)  # Resize if necessary
+    return ImageTk.PhotoImage(icon)
 
 # return to the homescreen
 def show_home_screen():
@@ -116,10 +123,13 @@ def input_points_menu():
     
     draw_button.grid(row=5, column=0, columnspan=2, pady=15, padx=10)
 
-    home_button = tk.Button(root, text="Home", font=button_font, width=10, height=2, bg="#3b5998", fg="white",
+    home_icon = get_home_icon()
+    home_button = tk.Button(root, image=home_icon, font=button_font, borderwidth=0,
               command=show_home_screen)
     
-    home_button.grid(row=5, column=2, columnspan=2, pady=15, padx=10)
+    home_button.image = home_icon 
+    
+    home_button.grid(row=0, column=2, columnspan=2, pady=15, padx=10, sticky="e")
 
 def parse_points_string(points_list):
     gui_points = []
@@ -197,10 +207,13 @@ def examples():
     # Align left
     draw_example_three_button.grid(row=6, column=0, padx=10, pady=5, sticky="w")    
 
-    home_button = tk.Button(root, text="Home", font=button_font, width=10, height=2, bg="#3b5998", fg="white",
+    home_icon = get_home_icon()
+    home_button = tk.Button(root, image=home_icon, font=button_font, borderwidth=0,
               command=show_home_screen)
     
-    home_button.grid(row=7, column=2, columnspan=2, pady=15, padx=10)
+    home_button.image = home_icon 
+    
+    home_button.grid(row=0, column=2, columnspan=2, pady=15, padx=65, sticky="e")
 
 
 # Run the initial home screen
