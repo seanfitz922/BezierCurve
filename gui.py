@@ -6,7 +6,7 @@ from bezier import main
 
 # Initialize the main application window
 root = tk.Tk()
-root.title("Bézier Cubit")
+root.title("Bézier Cubic")
 root.geometry("400x300")
 root.configure(bg="#f0f0f5")  # Light background color
 
@@ -40,7 +40,7 @@ def show_home_screen():
     title_frame = tk.Frame(root, bg="#3b5998", padx=10, pady=10)
     title_frame.pack(fill="x", pady=(0, 20))
 
-    title_label = tk.Label(title_frame, text="Bézier Cubit", font=title_font, fg="white", bg="#3b5998")
+    title_label = tk.Label(title_frame, text="Bézier Cubic", font=title_font, fg="white", bg="#3b5998")
     title_label.pack()
     
     # Place buttons inside another frame 
@@ -186,7 +186,7 @@ def examples():
     # Draw Example Two button
     draw_example_two_button = tk.Button(root, text="Draw Curve", font=button_font, bg="#4CAF50", fg="white",
                         command=lambda: main([
-                            (0, 1080), (1920, 0), (0, 0), (1920, 1080)
+                            (285, 900), (1465, 250), (377, 233), (1200, 900)
                         ]))
     # Align left
     draw_example_two_button.grid(row=4, column=0, padx=10, pady=5, sticky="w")
