@@ -1,0 +1,25 @@
+Project Title: Bezier Cubic
+Version: 1.0.0
+Date of Creation: 11/18/2024
+Date of Last Update: 11/18/2024
+
+Author: Sean, Ivan, Ased
+Dependancies: NumPy, Tkinter, PyGame, PIL
+
+
+
+How to Run:
+
+Run the Python File called gui.py. This will launch the GUI interface. 
+This interface will have a home menu that itself will have three mode:
+Enter Points
+Free Hand
+Examples
+
+Enter Points mode allows the user to input four points in the format: x,y
+After entering the points and selecting the "Draw Curve" button, the inputted points will then be used to draw the resulting Bezier curve. In the top left corner of the user's screen, the equations that can used to draw the curve parametrically will be displayed. The list of inputted points will also be displayed. To quit Enter Points mode, press, 'q'. This will take the user back to Enter Points menu. Click the house symbol in the top right corner to return to the home menu.
+
+Free Hand mode allows the user to freely select any four points on a blank cartesian plane. These points will be used to draw the resulting Bezier curve. In the top left corner of the user's screen, the equations that can used to draw the curve parametrically will be displayed. The list of inputted points will also be displayed. To rseet the drawing canvas, press the key 'r'. To quit Free Hand mode, press, 'q'. This will take the user back to the home menu.
+
+Examples mode allows the user to select an example Bezier curve to draw. There are three buttons that each will draw a different Bezier Curve. In the top left corner of the user's screen, the equations that can used to draw the curve parametrically will be displayed. The list of inputted points from the example will also be displayed. To quit Example mode, press, 'q'. This will take the user back to Example menu. Click the house symbol in the top right corner to return to the home menu.
+
